@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const formSchema = z.object({
 	search: z.string().min(0).max(50),
@@ -31,6 +32,12 @@ export function SearchBar() {
 			search: query.get("search") ?? "",
 		},
 	});
+
+	const search = query.get("search");
+
+	useEffect(() => {
+		form.setValue("search", search ?? "");
+	}, [search, form]);
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		if (values.search) {
