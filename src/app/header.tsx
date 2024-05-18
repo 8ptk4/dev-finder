@@ -16,7 +16,6 @@ import Link from "next/link";
 
 function AccountDropdown() {
 	const session = useSession();
-	const isLoggedIn = !!session.data;
 
 	return (
 		<DropdownMenu>
@@ -31,17 +30,16 @@ function AccountDropdown() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				{isLoggedIn ? (
-					<DropdownMenuItem onClick={() => signOut()}>
-						<LogOutIcon className="mr-2" />
-						Sign Out
-					</DropdownMenuItem>
-				) : (
-					<DropdownMenuItem onClick={() => signIn()}>
-						<LogInIcon className="mr-2" />
-						Sign In
-					</DropdownMenuItem>
-				)}
+				<DropdownMenuItem
+					onClick={() =>
+						signOut({
+							callbackUrl: "/",
+						})
+					}
+				>
+					<LogOutIcon className="mr-2" />
+					Sign Out
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
@@ -66,8 +64,19 @@ export function Header() {
 					DevFinder
 				</Link>
 				<div className="flex items-center gap-4">
-					<AccountDropdown />
-
+					{session.data && <AccountDropdown />}
+					{!session.data && (
+						<Button
+							onClick={() =>
+								signIn("github", {
+									callbackUrl: "/",
+								})
+							}
+							variant="link"
+						>
+							<LogInIcon className="mr-2" /> Sign In
+						</Button>
+					)}
 					<ModeToggle />
 				</div>
 			</div>
