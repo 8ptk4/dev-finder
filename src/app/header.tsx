@@ -7,9 +7,10 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogInIcon, LogOutIcon } from "lucide-react";
+import { DeleteIcon, LogInIcon, LogOutIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,6 +41,17 @@ function AccountDropdown() {
 					<LogOutIcon className="mr-2" />
 					Sign Out
 				</DropdownMenuItem>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem
+					onClick={() =>
+						signOut({
+							callbackUrl: "/",
+						})
+					}
+				>
+					<DeleteIcon className="mr-2" />
+					Delete Account
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
@@ -50,8 +62,8 @@ export function Header() {
 	const isLoggedIn = !!session.data;
 
 	return (
-		<header className="py-2 bg-gray-100 dark:bg-gray-900 container mx-auto z-10 relative">
-			<div className="flex justify-between items-center">
+		<header className="py-2 bg-gray-100 dark:bg-gray-900 z-10 relative">
+			<div className="container mx-auto flex justify-between items-center">
 				<Link
 					href="/"
 					className="flex gap-2 items-center text-xl hover:underline"
